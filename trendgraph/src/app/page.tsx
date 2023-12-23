@@ -1,7 +1,7 @@
-import React from "react";
 import TitleHeader from "./components/TitleHeader";
 import SelectionForm from "./components/SelectionForm";
 import GraphForm from "./components/GraphForm";
+import React from "react";
 
 function Page() {
 
