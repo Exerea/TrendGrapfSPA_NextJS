@@ -3,8 +3,7 @@ import React from 'react'
 function TitleHeader() {
   return (
     <div>
-      TitleHeader
-    
+      RESAS API 人口統計
     </div>
   )
 }
