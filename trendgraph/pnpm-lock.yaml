@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  highcharts:
+    specifier: ^11.2.0
+    version: 11.2.0
   next:
     specifier: 14.0.4
     version: 14.0.4(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
@@ -7446,6 +7449,10 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
+
+  /highcharts@11.2.0:
+    resolution: {integrity: sha512-9i650YK7ZBA1Mgtr3avMkLVCAI45RQvYnwi+eHsdFSaBGuQN6BHoa4j4lMkSJLv0V4LISTK1z7J7G82Lzd7zwg==}
+    dev: false
 
   /hmac-drbg@1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}
