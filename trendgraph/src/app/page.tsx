@@ -1,7 +1,10 @@
+"use client"
+
 import TitleHeader from "./components/TitleHeader";
 import SelectionForm from "./components/SelectionForm";
 import GraphForm from "./components/GraphForm";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { SeriesOptionsType } from "highcharts";
 
 const pres = {
   "message": null,
@@ -151,11 +154,55 @@ const pres = {
 
 function Page() {
 
+
+  /**
+ * 仮データ
+ */
+  const values: SeriesOptionsType[] = [
+    {
+      name: 'Installation & Developers',
+      data: [43934, 48656, 65165, 81827, 112143, 142383, 171533, 165174, 155157, 161454, 154610],
+      type: 'line'
+    },
+    {
+      name: 'Installation & Developers2',
+      data: [40000, 48000, 65000, 81000, 112143, 142383, 171533, 165174, 155157, 161454, 154610],
+      type: 'line'
+    },
+  ];
+  const values2: SeriesOptionsType[] = [
+    {
+      name: '2kome',
+      data: [20000, 20000, 20000, 20000, 20000, 20000, 171533, 165174, 155157, 161454, 154610],
+      type: 'line'
+    },
+    {
+      name: 'はいこれ2個目ね',
+      data: [40000, 48000, 65000, 81000, 40000, 40000, 171533, 165174, 155157, 161454, 154610],
+      type: 'line'
+    },
+  ];
+
+
+
+  const [value, setValue] = useState(values);
+  const [bool, setBool] = useState(false);
+
+  useEffect(() => {
+    setValue(bool ? values : values2);
+  }, [bool]);
+
+
+  const toggle = () => {
+    setBool(!bool);
+  };
+
   const tsx = (
     <main>
       <TitleHeader></TitleHeader>
       <SelectionForm prefParams={pres.result}></SelectionForm>
-      <GraphForm></GraphForm>
+      <GraphForm values={value} ></GraphForm>
+      <button onClick={toggle}>グラフを表示</button>
     </main>
   );
 

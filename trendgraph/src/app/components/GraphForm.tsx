@@ -1,33 +1,16 @@
 'use client'
-import React, { useEffect } from 'react'
-import Highcharts, { ChartCallbackFunction, SeriesOptionsType, Options } from "highcharts"
+import React from 'react'
+import Highcharts, { SeriesOptionsType, Options } from "highcharts"
+import HighchartsReact, { HighchartsReactProps } from 'highcharts-react-official';
 
-/**
- * 仮データ
- */
-const values: SeriesOptionsType[] = [
-  {
-    name: 'Installation & Developers',
-    data: [43934, 48656, 65165, 81827, 112143, 142383, 171533, 165174, 155157, 161454, 154610],
-    type: 'line'
-  },
-  {
-    name: 'Installation & Developers2',
-    data: [40000, 48000, 65000, 81000, 112143, 142383, 171533, 165174, 155157, 161454, 154610],
-    type: 'line'
-  },
-];
+
 /**
  * ChartOptionを構築する
  * @param targetID 反映先要素ID
  * @returns 構築済Chartオプション
  */
-function createOptions(targetID: string): Options {
+function createOptions(values: SeriesOptionsType[]): Options {
   return {
-    chart: {
-      renderTo: targetID // ターゲット要素を指定
-    },
-
     title: {
       text: '都道府県別の総人口推移',
       align: 'left'
@@ -86,36 +69,15 @@ function createOptions(targetID: string): Options {
 }
 
 /**
- * Chartの構築
- * @param targetID 構築先要素ID
- */
-function createChart(targetID: string) {
-
-  //Chart Option構築
-  const options: Options = createOptions(targetID);
-
-  //作成後のコールバック 何もしない
-  const callback: ChartCallbackFunction = () => { };
-
-  //create Chart
-  Highcharts.chart(options, callback);
-}
-
-
-/**
  * Graphフォーム
  * {@link SelectionForm}のチェックボックスのtoggle状況で再レンダーする
  * @returns 構築済みフォーム
- */
-function GraphForm() {
+*/
+function GraphForm({ values }: { values: SeriesOptionsType[] }) {
 
-  useEffect(() => {
-    createChart('chart-container');
-  }, []);
+  const options: Options = createOptions(values);
 
-  return (
-    <div id="chart-container"></div>
-  )
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
 }
 
 export default GraphForm
