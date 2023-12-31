@@ -194,19 +194,27 @@ function Page() {
 
 
   const toggle = () => {
+    console.log(bool);
     setBool(!bool);
+    console.log(bool);
   };
 
-  const tsx = (
+  type PrefactureResponse = {
+    prefCode: number,
+    prefName: string
+  }
+
+  const result: PrefactureResponse[] = pres.result;
+
+
+  return (
     <main>
       <TitleHeader></TitleHeader>
-      <SelectionForm prefParams={pres.result}></SelectionForm>
+      <SelectionForm prefParams={result}></SelectionForm>
       <GraphForm values={value} ></GraphForm>
       <button onClick={toggle}>グラフを表示</button>
     </main>
   );
-
-  return tsx;
 }
 
 export default Page;

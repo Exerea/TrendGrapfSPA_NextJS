@@ -77,7 +77,7 @@ function GraphForm({ values }: { values: SeriesOptionsType[] }) {
 
   const options: Options = createOptions(values);
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  return <HighchartsReact  highcharts={Highcharts} options={options} />;
 }
 
 export default GraphForm

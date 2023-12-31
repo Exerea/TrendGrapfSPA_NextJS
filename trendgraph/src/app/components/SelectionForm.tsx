@@ -1,28 +1,61 @@
-import React from 'react';
 
-type CheckboxParams = {
-  label: string;
-  checked?: boolean;
-};
+import React, { useState } from 'react';
 
-//todo:storybook
-const CheckBox: React.FC<CheckboxParams> = ({ label, checked = false }) => {
-  return (
-    <label>
-      <input type='checkbox' defaultChecked={checked} />
-      {label}
-    </label>
-  );
-}
 
-type PrefactureResponse =  {
+
+
+
+
+
+
+
+
+type PrefactureResponse = {
   prefCode: number,
   prefName: string
 }
 
-type PrefactureResponses =  {
-  prefParams: PrefactureResponse[]
+type PrefactureResponses = {
+  prefParams: PrefactureResponse[] | []
 }
+
+type CheckboxParams = {
+  prefacture: PrefactureResponse;
+  checked?: boolean;
+};
+
+
+function CheckBox(param: CheckboxParams) {
+  const [bool, setBool] = useState(false);
+
+  const toggle = () => {
+    setBool(!bool);
+  };
+
+  return (
+    <label>
+      <input type='checkbox' key={param.prefacture.prefCode} checked={param.checked = false} onClick={toggle}/>
+      {param.prefacture.prefName}
+    </label>
+  );
+}
+
+function createBox(prefacture: PrefactureResponse) {
+  const params: CheckboxParams = {
+    prefacture: prefacture,
+    checked: false
+  };
+  return CheckBox(params)
+}
+
+const CheckBoxes = (prefactures: PrefactureResponses) => {
+
+  const createBoxes = (prefactures: PrefactureResponse[]) => {
+    return prefactures.map(prefacture => createBox(prefacture));
+  }
+
+  return createBoxes(prefactures.prefParams);
+};
 
 
 /**
@@ -30,12 +63,10 @@ type PrefactureResponses =  {
  * @param prefParams
  * @returns 
  */
-const SelectionForm: React.FC<PrefactureResponses> = ({ prefParams }) => {
+const SelectionForm: React.FC<PrefactureResponses> = (props: PrefactureResponses) => {
   return (
     <div>
-      {prefParams.map((prefParam) => {
-        return <CheckBox key={prefParam.prefCode} label={`${prefParam.prefName}`} />;
-      })}
+      {CheckBoxes(props)}
     </div>
   );
 };
