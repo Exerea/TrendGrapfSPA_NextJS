@@ -8,7 +8,7 @@ function createRequestInit() {
   const TYPE: string = "GET";
 
   //exists API_KEY?
-  const RESAS_API_KEY = process.env.RESAS_APIKEY;
+  const RESAS_API_KEY = process.env.NEXT_PUBLIC_RESAS_API_KEY;
   if (!RESAS_API_KEY) {
     throw new Error(
       "RESAS API key is undefined. Please check your environment variables."
@@ -35,10 +35,10 @@ export const requestInit =  createRequestInit();
  * @param init リクエスト内容
  * @returns Fetchハンドラ
  */
-const fetcher = (url: string) => {
+function fetcher(url: string){
   return fetch(url, createRequestInit())
     .then((response) => response.json())
     .catch((error) => console.error("[ERROR] : ", error));
-};
+}
 
 export default fetcher;
