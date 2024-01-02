@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Highcharts, { SeriesOptionsType, Options } from "highcharts"
-import HighchartsReact, { HighchartsReactProps } from 'highcharts-react-official';
+import HighchartsReact from 'highcharts-react-official';
 
 
 /**
@@ -77,7 +77,7 @@ function GraphForm({ values }: { values: SeriesOptionsType[] }) {
 
   const options: Options = createOptions(values);
 
-  return <HighchartsReact  highcharts={Highcharts} options={options} />;
+  return <HighchartsReact key={"resas_chart"} highcharts={Highcharts} options={options} />;
 }
 
 export default GraphForm
