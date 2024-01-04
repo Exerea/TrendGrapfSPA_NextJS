@@ -38,7 +38,7 @@ function CheckBox(param: CheckboxParams) {
       : prefCodes.filter((code) => code !== prefCode);
     setPredCodes(newCodes);
 
-    console.log("this is" + newCodes + ":"+newChecked);
+    console.log("this is" + newCodes + ":" + newChecked);
   }
 
 

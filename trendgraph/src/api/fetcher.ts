@@ -1,3 +1,4 @@
+
 /**
  * リクエスト内容の構築
  * @returns 構築済リクエスト内容
@@ -27,7 +28,7 @@ function createRequestInit() {
   };
 }
 
-export const requestInit =  createRequestInit();
+export const requestInit = createRequestInit();
 
 /**
  * SWR fetcher構築
@@ -35,10 +36,26 @@ export const requestInit =  createRequestInit();
  * @param init リクエスト内容
  * @returns Fetchハンドラ
  */
-function fetcher(url: string){
+function fetcher(url: string) {
   return fetch(url, createRequestInit())
     .then((response) => response.json())
     .catch((error) => console.error("[ERROR] : ", error));
 }
 
 export default fetcher;
+
+/**
+ * SWR arrayFetcher構築
+ * @param urlArr 
+ * @returns 
+ */
+function arrayFetcher(...urlArr: string[]) {
+  function fetchData(url: string) {
+    return fetch(url, createRequestInit())
+      .then((response) => response.json());
+  }
+  return Promise.all(urlArr.map(fetchData))
+    .catch((error) => console.error("[ERROR] : ", error));
+}
+
+export const fetchArray = () => arrayFetcher;
