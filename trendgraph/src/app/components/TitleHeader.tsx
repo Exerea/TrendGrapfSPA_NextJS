@@ -2,9 +2,9 @@ import React from 'react'
 
 function TitleHeader() {
   return (
-    <div>
+    <header >
       RESAS API 人口統計
-    </div>
+    </header>
   )
 }
 

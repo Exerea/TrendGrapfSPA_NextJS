@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const prefCodesState = atom<number[]>({
-    key: "prefCodesState",
+export const prefacturesState = atom<Prefacture[]>({
+    key: "prefacturesState",
     default: [],
 });

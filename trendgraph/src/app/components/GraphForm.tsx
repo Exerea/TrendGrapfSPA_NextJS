@@ -1,9 +1,9 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Highcharts, { SeriesOptionsType } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { requestInit } from "@/api/fetcher";
-import { prefCodesState } from "@/recoil/atoms/checkstate";
+import { prefacturesState } from "@/recoil/atoms/checkstate";
 import { useRecoilValue } from "recoil";
 
 /**
@@ -32,13 +32,11 @@ function option(val: SeriesOptionsType[], categories: number[]) {
 }
 
 const Graph: React.FC = () => {
-  const name: string = `this is ${1}`;
+  
 
-  const preCodes: number[] = useRecoilValue(prefCodesState);
+  const prefacture: Prefacture[] = useRecoilValue(prefacturesState);
 
-  const [seriesOptionsType, setSeriesOptionsType] = useState<
-    SeriesOptionsType[]
-  >([]);
+  const [seriesOptionsType, setSeriesOptionsType] = useState<SeriesOptionsType[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
 
   type record = {
@@ -51,32 +49,45 @@ const Graph: React.FC = () => {
    * @param urlArr
    * @returns
    */
-  const arrayFetcher = useCallback(async (preCodes: number[]) => {
-    console.log("error fetching");
+  const arrayFetcher = useCallback(async (prefactures: Prefacture[]) => {
+    
+    type Pres = {
+      preName : string,
+      url : string,
+    }
+    
     //都道府県コードからURLコード群に変換
     //NOTE:RESASは1クエリ条件1precodeのため
-    const urls: string[] = preCodes.map((code) => {
+    const graph: Pres[] = prefactures.map((prefacture) => {
       const URL = "https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear";
-      return `${URL}?prefCode=${code}`;
+      
+      const pres : Pres = {
+        preName : prefacture.prefName,
+        url : `${URL}?prefCode=${prefacture.prefCode}`
+      };
+      return pres;
     });
 
     //レスポンスからデータ抽出
     try {
+
+
       //取得データ
       const responses = await Promise.all(
-        urls.map((url) => fetch(url, requestInit))
+        graph.map((data) => fetch(data.url, requestInit))
       );
       const data = await Promise.all(
         responses.map((response) => response.json())
       );
 
+
       //オプション変換
       const series: SeriesOptionsType[] = [];
-      for (const value of data) {
-        const record: record[] = value.result.data[0].data;
+      for (let i = 0; i < data.length; i++) {
+        const record: record[] =  data[i].result.data[0].data;
         const values: string[] = record.map((val: record) => val.value);
         const val: SeriesOptionsType = {
-          name: name,
+          name: graph[i].preName,
           data: values,
           type: "line",
         };
@@ -90,12 +101,12 @@ const Graph: React.FC = () => {
     } catch (error) {
       console.log("error fetching");
     }
-  }, [preCodes]);
+  }, [prefacture]);
 
   //preCodesが変更されるたび再構築
   useEffect(() => {
-    arrayFetcher(preCodes);
-  }, [preCodes]);
+    arrayFetcher(prefacture);
+  }, [prefacture]);
 
   return (
     <HighchartsReact
@@ -107,6 +118,7 @@ const Graph: React.FC = () => {
 };
 
 const GraphForm: React.FC = () => {
+
   return (
     <div>
       <Graph></Graph>
