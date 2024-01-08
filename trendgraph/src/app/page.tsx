@@ -1,16 +1,12 @@
-
 "use client"
-import { RecoilRoot } from 'recoil'
+import { RecoilRoot } from "recoil";
 import TitleHeader from "./components/TitleHeader";
 import SelectionForm from "./components/SelectionForm";
 import GraphForm from "./components/GraphForm";
 import React from "react";
+import { NextPage } from "next";
 
-
-
-
-
-function Page() {
+const Page: NextPage = () => {
   return (
     <main>
       <TitleHeader></TitleHeader>
@@ -20,6 +16,6 @@ function Page() {
       </RecoilRoot>
     </main>
   );
-}
+};
 
 export default Page;
