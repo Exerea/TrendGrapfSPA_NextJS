@@ -1,6 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function TitleHeader() {
+
+function TitleHeader(): React.ReactElement {
   return (
     <header >
       RESAS API 人口統計
@@ -8,4 +9,6 @@ function TitleHeader() {
   )
 }
 
-export default TitleHeader
+export default TitleHeader;
+
+
