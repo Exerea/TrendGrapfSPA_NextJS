@@ -1,37 +1,34 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import Highcharts, { SeriesOptionsType } from "highcharts";
+import React from "react";
+import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { requestInit } from "@/api/fetcher";
-import { prefacturesState } from "@/recoil/atoms/checkstate";
-import { useRecoilValue } from "recoil";
-import { useGraphForm } from "@/hooks/useGraphForm";
+import { option, useGraphForm } from "@/hooks/useGraphForm";
 
 /**
- * Graphフォーム
- * {@link SelectionForm}のチェックボックスのtoggle状況で再レンダーする
- * @returns 構築済みフォーム
+ * Graphを構築します。
+ * - データがまだロードされていない / 未選択 の場合は、別途メッセージを表示します。
+ * - {@link SelectionForm} のチェックボックスの状態変化に応じてコンポーネントを再レンダリングします。
+ * @returns {React.FC} 選択データのグラフ or 非表示メッセージ のコンポーネント
  */
 const Graph: React.FC = () => {
-  
-  const options = useGraphForm();
+    const { seriesOptionsType, categories } = useGraphForm();
 
-  return (
-    <HighchartsReact
-      key={"resas_chart"}
-      highcharts={Highcharts}
-      options={options}
-    />
-  );
+    return seriesOptionsType.length == 0 ? (
+        <div>未選択</div>
+    ) : (
+        <HighchartsReact key={"resas_chart"} highcharts={Highcharts} options={option(seriesOptionsType, categories)} />
+    );
 };
 
+/**
+ * Graphフォームを構築します。
+ * @returns {React.FC} グラフフォーム
+ */
 const GraphForm: React.FC = () => {
-
-  return (
-    <div>
-      <Graph></Graph>
-    </div>
-  );
+    return (
+        <div>
+            <Graph></Graph>
+        </div>
+    );
 };
 
 export default GraphForm;
