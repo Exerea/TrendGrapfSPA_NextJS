@@ -1,8 +1,8 @@
 "use client"
 import { RecoilRoot } from "recoil";
-import TitleHeader from "./components/TitleHeader";
-import SelectionForm from "./components/SelectionForm";
-import GraphForm from "./components/GraphForm";
+import TitleHeader from "../components/Header/TitleHeader";
+import SelectionForm from "../components/SelectionForm/SelectionForm";
+import GraphForm from "../components/GraphForm/GraphForm";
 import React from "react";
 import { NextPage } from "next";
 
@@ -11,7 +11,7 @@ const Page: NextPage = () => {
     <main>
       <TitleHeader></TitleHeader>
       <RecoilRoot>
-        <SelectionForm></SelectionForm>
+        <SelectionForm ></SelectionForm>
         <GraphForm></GraphForm>
       </RecoilRoot>
     </main>

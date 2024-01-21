@@ -1,0 +1,9 @@
+.header {
+    color: white;
+    font-weight: var(--fontweight-bold);
+    font-size: var(--fontsize-large);
+    height: 3rem;
+    display: flex;
+    align-items: center; 
+    background-color: #0066be;
+}

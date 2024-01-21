@@ -1,0 +1,14 @@
+
+
+.label {
+
+    align-items: center;
+    border-radius: 0.5rem;
+    
+    user-select: none;
+    cursor: pointer; 
+}
+
+.label:hover{
+    background-color: #F1F1F4;
+}

@@ -1,5 +1,6 @@
 import { useCheckBox } from "@/hooks/useCheckBox";
 import React from "react";
+import styles from "./CheckBox.module.css"
 
 /**
  * チェックボックス (個別) を作成します。
@@ -12,15 +13,16 @@ const CheckBox: React.FC<CreateCheckBoxProps> = ({
     const { isChecked, setValues } = useCheckBox();
 
     return (
-        <label>
-            <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => setValues(prefacture)}
-            >
-            </input>
-            {prefacture.prefName}
-        </label>
+            <label className={styles.label}>
+                <input
+                    type="checkbox"
+                    className={styles.checkbox}
+                    checked={isChecked}
+                    onChange={() => setValues(prefacture)}
+                >
+                </input>
+                {prefacture.prefName}
+            </label>
     );
 };
 

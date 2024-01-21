@@ -1,7 +1,8 @@
 import fetcher from "@/api/fetcher";
 import useSWR from "swr";
 import React from "react";
-import CheckBox from "./CheckBox";
+import CheckBox from "../CheckBox/CheckBox";
+import styles from "./SelectionForm.module.css"
 
 /**
  * チェックボックスフォームを作成します。
@@ -40,10 +41,14 @@ const CheckBoxes: React.FC = () => {
  */
 const SelectionForm: React.FC = () => {
     return (
-        <div>
-            <h3>都道府県</h3>
-            <CheckBoxes></CheckBoxes>
-        </div>
+        <>
+            <div>
+                <h3>都道府県</h3>
+                <div className={styles.container}>
+                    <CheckBoxes></CheckBoxes>
+                </div>
+            </div>
+        </>
     );
 };
 

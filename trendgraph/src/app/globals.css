@@ -1,17 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    /* カラー */
+    --color-text-primary: #1a1a1c;
+    --color-text-secondary: #4d4d4d;
+    --color-alert:#ec0000;
+
+    /* css-grid */
+    --width-container: 70rem;
+    --gap-columns: 2rem;
+
+    /* font */
+    --fontsize: 16px;
+    --fontsize-large: 1.3rem;
+    --fontweight-normal: 400;
+    --fontweight-medium: 500;
+    --fontweight-semibold: 600;
+    --fontweight-bold: 700;
+    
+    /* フォントフォーマット */
+    --ff: "Noto Sans JP",-apple-system,blinkmacsystemfont,"Segoe UI","Hiragino Kaku Gothic ProN","BIZ UDPGothic",meiryo,sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body {
+    color: var(--color-text-primary);
+    font-family: var(--ff);
+    font-size: var(--fontsize);
+    font-weight: var(--fontweight-normal);
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
 }

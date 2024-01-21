@@ -1,0 +1,7 @@
+/* 各チェックボックスコンテナ */
+.container {
+    display: grid;
+    flex-flow: column;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
