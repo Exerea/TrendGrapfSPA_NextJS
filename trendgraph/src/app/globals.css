@@ -2,7 +2,7 @@
     /* カラー */
     --color-text-primary: #1a1a1c;
     --color-text-secondary: #4d4d4d;
-    --color-alert:#ec0000;
+    --color-alert: #ec0000;
 
     /* css-grid */
     --width-container: 70rem;
@@ -15,9 +15,10 @@
     --fontweight-medium: 500;
     --fontweight-semibold: 600;
     --fontweight-bold: 700;
-    
+
     /* フォントフォーマット */
-    --ff: "Noto Sans JP",-apple-system,blinkmacsystemfont,"Segoe UI","Hiragino Kaku Gothic ProN","BIZ UDPGothic",meiryo,sans-serif;
+    --ff: "Noto Sans JP", -apple-system, blinkmacsystemfont, "Segoe UI", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic",
+        meiryo, sans-serif;
 }
 
 body {

@@ -1,31 +1,28 @@
-
 /**
  * リクエスト内容の構築
  * @returns 構築済リクエスト内容
  */
 function createRequestInit() {
-  //HTTPメソッドタイプ
-  //NOTE:RESASから読み取るだけなのでGET固定
-  const TYPE: string = "GET";
+    //HTTPメソッドタイプ
+    //NOTE:RESASから読み取るだけなのでGET固定
+    const TYPE: string = "GET";
 
-  //exists API_KEY?
-  const RESAS_API_KEY = process.env.NEXT_PUBLIC_RESAS_API_KEY;
-  if (!RESAS_API_KEY) {
-    throw new Error(
-      "RESAS API key is undefined. Please check your environment variables."
-    );
-  }
+    //exists API_KEY?
+    const RESAS_API_KEY = process.env.NEXT_PUBLIC_RESAS_API_KEY;
+    if (!RESAS_API_KEY) {
+        throw new Error("RESAS API key is undefined. Please check your environment variables.");
+    }
 
-  //header構築
-  const header: Headers = new Headers({
-    "X-API-KEY": RESAS_API_KEY,
-  });
+    //header構築
+    const header: Headers = new Headers({
+        "X-API-KEY": RESAS_API_KEY,
+    });
 
-  //ReauestInit構築
-  return {
-    method: TYPE,
-    headers: header,
-  };
+    //ReauestInit構築
+    return {
+        method: TYPE,
+        headers: header,
+    };
 }
 
 export const requestInit = createRequestInit();
@@ -37,25 +34,9 @@ export const requestInit = createRequestInit();
  * @returns Fetchハンドラ
  */
 function fetcher(url: string) {
-  return fetch(url, createRequestInit())
-    .then((response) => response.json())
-    .catch((error) => console.error("[ERROR] : ", error));
+    return fetch(url, createRequestInit())
+        .then((response) => response.json())
+        .catch((error) => console.error("[ERROR] : ", error));
 }
 
 export default fetcher;
-
-/**
- * SWR arrayFetcher構築
- * @param urlArr 
- * @returns 
- */
-function arrayFetcher(...urlArr: string[]) {
-  function fetchData(url: string) {
-    return fetch(url, createRequestInit())
-      .then((response) => response.json());
-  }
-  return Promise.all(urlArr.map(fetchData))
-    .catch((error) => console.error("[ERROR] : ", error));
-}
-
-export const fetchArray = () => arrayFetcher;

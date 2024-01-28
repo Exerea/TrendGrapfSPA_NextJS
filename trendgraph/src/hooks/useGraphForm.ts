@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { requestInit } from "@/api/fetcher";
+import arrayFetcher from "@/api/populationFetcher";
 import { prefacturesState } from "@/recoil/atoms/checkstate";
 import { useRecoilValue } from "recoil";
 import { SeriesOptionsType } from "highcharts";
 
 /**
- * Graphフォーム
- * {@link SelectionForm}のチェックボックスのtoggle状況で再レンダーする
- * @returns 構築済みフォーム
+ * グラフ描画のオプションを構築します
+ * @param val 統計データ
+ * @param categories 年度
+ * @returns 描画データ
  */
-export function option(val: SeriesOptionsType[], categories: number[]) {
+export function createOption(val: SeriesOptionsType[], categories: number[]) {
     return {
         title: {
             text: "都道府県別の総人口推移",
@@ -34,83 +35,57 @@ export function option(val: SeriesOptionsType[], categories: number[]) {
     };
 }
 
-type record = {
-    year: number;
-    value: string;
-};
-
-type Pres = {
-    preName: string;
-    url: string;
-};
-
-type result = {
-    series: SeriesOptionsType[];
-    years: number[];
-};
-
 /**
- * SWR arrayFetcher構築
- * @param prefactures 選択済み都道府県データ群
- * @returns
+ * 都道府県コードからURLコード群に変換します
+ * NOTE:RESASは1クエリ条件1precodeのため
+ * @param prefactures 都道府県コード
+ * @returns {AccessPrefacture[]}アクセスデータセット
  */
-async function arrayFetcher(prefactures: Prefacture[]): Promise<result> {
-    //都道府県コードからURLコード群に変換
-    //NOTE:RESASは1クエリ条件1precodeのため
-    const accessData: Pres[] = prefactures.map((prefacture) => {
-        const URL = "https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear";
+function createAccessPrefacture(prefactures: Prefacture[]): AccessPrefacture[] {
+    const accessPrefactures: AccessPrefacture[] = prefactures.map((prefacture) => {
+        const URL: string = "https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear";
 
-        const pres: Pres = {
+        const accessData: AccessPrefacture = {
             preName: prefacture.prefName,
             url: `${URL}?prefCode=${prefacture.prefCode}`,
         };
-        return pres;
+        return accessData;
     });
+    return accessPrefactures;
+}
 
-    //レスポンスからデータ抽出
-    try {
-        //取得データ
-        const data = await Promise.all(
-            accessData.map(async (data) => {
-                const response = await fetch(data.url, requestInit);
-                return response.json();
-            }),
-        );
+/**
+ * API取得データからグラフ表示データへ成形します。
+ * @param data APIレスポンス
+ * @param accessData API都道府県アクセス情報
+ * @returns {ViewValues} グラフ表示データ
+ */
+function convertToViewValues(data: resasApiResponse[], accessData: AccessPrefacture[]): ViewValues {
+    // オプション変換
+    const series: SeriesOptionsType[] = [];
+    for (let i = 0; i < data.length; i++) {
+        const getData: allPopulationData[] = data[i].result.data;
+        const record: PrefactureRecord[] = getData[0].data;
+        const values: string[] = record.map((val: PrefactureRecord) => val.value);
 
-    
-
-        //オプション変換
-        const series: SeriesOptionsType[] = [];
-        for (let i = 0; i < data.length; i++) {
-            const record: record[] = data[i].result.data[0].data;
-            const values: string[] = record.map((val: record) => val.value);
-
-            const val: SeriesOptionsType = {
-                name: accessData[i].preName,
-                data: values,
-                type: "line",
-            };
-            series.push(val);
-        }
-
-        const record: record[] = data[0].result.data[0].data;
-        const years: number[] = record.map((val: record) => val.year);
-
-        const result: result = {
-            series: series,
-            years: years,
+        //線形グラフ
+        const val: SeriesOptionsType = {
+            name: accessData[i].preName,
+            data: values,
+            type: "line",
         };
-        return result;
-    
-    } catch (error) {
-        
-        //データなし
-        const result: result = {
-            series: [],
-            years: [],
-        };
-        return result;
+        series.push(val);
     }
+
+    // グラフラベル構築
+    const record: PrefactureRecord[] = data[0].result.data[0].data;
+    const years: number[] = record.map((val: PrefactureRecord) => val.year);
+
+    // 構築データ
+    return {
+        series: series,
+        years: years,
+    };
 }
 
 export const useGraphForm = () => {
@@ -118,11 +93,17 @@ export const useGraphForm = () => {
     const [seriesOptionsType, setSeriesOptionsType] = useState<SeriesOptionsType[]>([]);
     const [categories, setCategories] = useState<number[]>([]);
 
+    //表示データを構築
     function handleValue(prefactures: Prefacture[]) {
-        const data: Promise<result> = arrayFetcher(prefactures);
+        const accessPrefactures: AccessPrefacture[] = createAccessPrefacture(prefactures);
+        const data: Promise<resasApiResponse[]> = arrayFetcher(accessPrefactures);
         data.then((data) => {
-            setSeriesOptionsType(data.series);
-            setCategories(data.years);
+            const value: ViewValues = convertToViewValues(data, accessPrefactures);
+            setSeriesOptionsType(value.series);
+            setCategories(value.years);
+        }).catch(() => {
+            setSeriesOptionsType([]);
+            setCategories([]);
         });
     }
 

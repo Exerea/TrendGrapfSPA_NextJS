@@ -1,7 +1,7 @@
 import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { option, useGraphForm } from "@/hooks/useGraphForm";
+import { createOption, useGraphForm } from "@/hooks/useGraphForm";
 import styles from "./Graphform.module.css"
 
 /**
@@ -13,11 +13,9 @@ import styles from "./Graphform.module.css"
 const Graph: React.FC = () => {
     const { seriesOptionsType, categories } = useGraphForm();
 
-    return seriesOptionsType.length == 0 ? (
-        <div className={styles.notselect}>都道府県を選択してください</div>
-    ) : (
-        <HighchartsReact key={"resas_chart"} highcharts={Highcharts} options={option(seriesOptionsType, categories)} />
-    );
+    return seriesOptionsType.length == 0
+        ? <div className={styles.notselect}>都道府県を選択してください</div>
+        : <HighchartsReact key={"resas_chart"} highcharts={Highcharts} options={createOption(seriesOptionsType, categories)} />;
 };
 
 /**
