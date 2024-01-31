@@ -16,6 +16,7 @@
   ```bash
   # Starts the app in development mode on localhost:3000
   pnpm run dev
+  
   ```
 
 ### Testing
@@ -23,5 +24,6 @@
 - **Run Tests:**
   ```bash
   # Launches the test runner in interactive watch mode
- pnpm run test
+  pnpm run test
+ 
   ```
