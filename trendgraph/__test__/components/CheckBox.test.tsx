@@ -1,6 +1,7 @@
-import React from "react";
-import CheckBox from "@/components/CheckBox/CheckBox";
+
 import { render, screen } from "@testing-library/react";
+import { RecoilRoot } from "recoil";
+import CheckBox from "@/components/CheckBox/CheckBox";
 
 describe("CheckBox Test", () => {
     test("都道府県ラベルが表示されるか", () => {
@@ -11,7 +12,11 @@ describe("CheckBox Test", () => {
         };
 
         //When
-        render(<CheckBox key={TEST_PREFACTURE.prefCode} prefacture={TEST_PREFACTURE} />);
+        render(
+            <RecoilRoot>
+                <CheckBox key={TEST_PREFACTURE.prefCode} prefacture={TEST_PREFACTURE} />
+            </RecoilRoot>
+        );
 
         //Then
         const label: HTMLElement = screen.getByLabelText("Tokyo");
