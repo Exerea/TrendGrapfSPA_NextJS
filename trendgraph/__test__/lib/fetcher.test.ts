@@ -1,4 +1,4 @@
-import fetcher, { requestInit } from "@/api/fetcher";
+import { requestInit } from "@/api/fetcher";
 
 beforeEach(() => {
     process.env.NEXT_PUBLIC_RESAS_API_KEY = "DUMMY_APU_KEY";
